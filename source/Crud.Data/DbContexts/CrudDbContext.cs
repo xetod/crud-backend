@@ -20,4 +20,5 @@ public class CrudDbContext : DbContext
 
         modelBuilder.ConfigureCrudDbContext();
     }
+
 }

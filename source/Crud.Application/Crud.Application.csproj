@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Crud.Data\Crud.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Customers\GetCustomers\" />
+  </ItemGroup>
+
 </Project>

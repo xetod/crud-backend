@@ -1,5 +1,5 @@
 ﻿using Crud.Api.Core.ConfigureDbContexts;
-using Crud.Data.DbContexts;
+using Crud.Api.Core.Seed;
 
 namespace Crud.Api;
 
@@ -19,7 +19,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddOptions();
-        
+
         services.AddHttpContextAccessor();
 
         services.AddControllers();
@@ -27,10 +27,9 @@ public class Startup
         services.ConfigureCrudDbContext(Configuration.GetConnectionString("Default"));
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CrudDbContext crudDbContext)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        crudDbContext.Database.EnsureDeleted();
-        crudDbContext.Database.EnsureCreated();
+        app.SeedDataBase();
 
         app.UseRouting();
 
@@ -42,6 +41,3 @@ public class Startup
         });
     }
 }
-
-
-
