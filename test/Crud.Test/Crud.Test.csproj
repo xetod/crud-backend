@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\source\Crud.Domain\Crud.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
