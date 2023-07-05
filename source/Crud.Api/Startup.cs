@@ -1,4 +1,7 @@
-﻿namespace Crud.Api;
+﻿using Crud.Api.Core.ConfigureDbContexts;
+using Crud.Data.DbContexts;
+
+namespace Crud.Api;
 
 public class Startup
 {
@@ -16,14 +19,19 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddOptions();
-
+        
         services.AddHttpContextAccessor();
 
         services.AddControllers();
+
+        services.ConfigureCrudDbContext(Configuration.GetConnectionString("Default"));
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CrudDbContext crudDbContext)
     {
+        crudDbContext.Database.EnsureDeleted();
+        crudDbContext.Database.EnsureCreated();
+
         app.UseRouting();
 
         app.UseAuthorization();
