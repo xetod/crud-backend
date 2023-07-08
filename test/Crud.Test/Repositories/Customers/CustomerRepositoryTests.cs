@@ -1,9 +1,9 @@
 ﻿using Crud.Application.Services.Customers.GetCustomers;
 using Crud.Application.Services.Customers.GetCustomers.Specifications;
+using Crud.Data.Core.Specifications;
 using Crud.Data.Repositories.Customers;
 using Crud.Domain.Entities;
 using Crud.Test.Helpers;
-using RepositoryService.Data.Core.Specifications;
 
 namespace Crud.Test.Repositories.Customers
 {
@@ -32,7 +32,7 @@ namespace Crud.Test.Repositories.Customers
             Assert.Equal(2, result.Count);
 
             // Check customer 1 and its sales
-            var firstCustomer = result.FirstOrDefault(customer => customer.Name == "Customer 1");
+            var firstCustomer = result.FirstOrDefault(customer => customer.FirstName == "Customer" && customer.LastName == "1");
             Assert.NotNull(firstCustomer);
             Assert.Equal("customer1@example.com", firstCustomer.Email);
             Assert.Equal("1234567890", firstCustomer.PhoneNumber);
@@ -41,7 +41,7 @@ namespace Crud.Test.Repositories.Customers
             Assert.Contains(firstCustomer.Sales, sale => sale.Product.Name == "Product 2");
 
             // Check customer 2 and its sales
-            var secondCustomer = result.FirstOrDefault(customer => customer.Name == "Customer 2");
+            var secondCustomer = result.FirstOrDefault(customer => customer.FirstName == "Customer" && customer.LastName == "2");
             Assert.NotNull(secondCustomer);
             Assert.Equal("customer2@example.com", secondCustomer.Email);
             Assert.Equal("9876543210", secondCustomer.PhoneNumber);
@@ -59,7 +59,8 @@ namespace Crud.Test.Repositories.Customers
             // Create and seed test data
             var customer1 = new Customer
             {
-                Name = "Customer 1",
+                FirstName = "Customer",
+                LastName = "1",
                 Email = "customer1@example.com",
                 PhoneNumber = "1234567890",
                 Address = "address 1"
@@ -67,7 +68,8 @@ namespace Crud.Test.Repositories.Customers
 
             var customer2 = new Customer
             {
-                Name = "Customer 2",
+                FirstName = "Customer",
+                LastName = "2",
                 Email = "customer2@example.com",
                 PhoneNumber = "9876543210",
                 Address = "address 2"
@@ -84,14 +86,14 @@ namespace Crud.Test.Repositories.Customers
             Assert.Equal(2, result.Count);
 
             // Check customer 1 
-            var firstCustomer = result.FirstOrDefault(customer => customer.Name == "Customer 1");
+            var firstCustomer = result.FirstOrDefault(customer => customer.FirstName == "Customer" && customer.LastName == "1");
             Assert.NotNull(firstCustomer);
             Assert.Equal("customer1@example.com", firstCustomer.Email);
             Assert.Equal("1234567890", firstCustomer.PhoneNumber);
             Assert.Empty(firstCustomer.Sales);
 
             // Check customer 2
-            var secondCustomer = result.FirstOrDefault(customer => customer.Name == "Customer 2");
+            var secondCustomer = result.FirstOrDefault(customer => customer.FirstName == "Customer" && customer.LastName == "2");
             Assert.NotNull(secondCustomer);
             Assert.Equal("customer2@example.com", secondCustomer.Email);
             Assert.Equal("9876543210", secondCustomer.PhoneNumber);
@@ -165,7 +167,7 @@ namespace Crud.Test.Repositories.Customers
             var countOfRows = result.Count();
             var lastRow = result.Skip(countOfRows - 1).First();
             var firstRow = result.First();
-            var sorted = string.Compare(firstRow.Name, lastRow.Name, StringComparison.Ordinal);
+            var sorted = string.Compare(firstRow.LastName, lastRow.LastName, StringComparison.Ordinal);
 
             Assert.NotNull(result);
             Assert.Equal(5, result.TotalCount);
@@ -194,7 +196,7 @@ namespace Crud.Test.Repositories.Customers
             var countOfRows = result.Count();
             var lastRow = result.Skip(countOfRows - 1).First();
             var firstRow = result.First();
-            var sorted = string.Compare(firstRow.Name, lastRow.Name, StringComparison.Ordinal);
+            var sorted = string.Compare(firstRow.LastName, lastRow.LastName, StringComparison.Ordinal);
 
             Assert.NotNull(result);
             Assert.Equal(5, result.TotalCount);
@@ -247,7 +249,7 @@ namespace Crud.Test.Repositories.Customers
             // Assert
             Assert.Equal(5, result.Count); // Ensure 5 customers are returned due to pagination
 
-            var firstCustomer = result.FirstOrDefault(customer => customer.Name == "Customer 1");
+            var firstCustomer = result.FirstOrDefault(customer => customer.FirstName == "Customer" && customer.LastName == "1");
             Assert.NotNull(firstCustomer);
             Assert.Equal("customer1@example.com", firstCustomer.Email);
             Assert.Equal("1234567890", firstCustomer.PhoneNumber);
@@ -255,7 +257,7 @@ namespace Crud.Test.Repositories.Customers
             Assert.Contains(firstCustomer.Sales, sale => sale.Product.Name == "Product 1");
             Assert.Contains(firstCustomer.Sales, sale => sale.Product.Name == "Product 2");
 
-            var secondCustomer = result.FirstOrDefault(customer => customer.Name == "Customer 2");
+            var secondCustomer = result.FirstOrDefault(customer => customer.FirstName == "Customer" && customer.LastName == "2");
             Assert.NotNull(secondCustomer);
             Assert.Equal("customer2@example.com", secondCustomer.Email);
             Assert.Equal("9876543210", secondCustomer.PhoneNumber);
@@ -291,24 +293,24 @@ namespace Crud.Test.Repositories.Customers
                 CurrentPage = 1,
                 PageSize = 2,
                 IsAscending = isAscending,
-                CustomerName = customerName
+                SearchText = customerName
             };
 
             var specification = Specification<Customer>.All;
-            specification = specification.And(new CustomerByNameSpecification(parameter.CustomerName));
+            specification = specification.And(new CustomerByNameSpecification(parameter.SearchText));
 
             switch (parameter.SortBy)
             {
                 case "Name":
                     if (parameter.IsAscending)
                     {
-                        specification = specification.SortAscending(new CustomerSortByNameSpecification());
+                        specification = specification.SortAscending(new SortCustomerByNameSpecification());
                         break;
                     }
-                    specification = specification.SortDescending(new CustomerSortByNameSpecification());
+                    specification = specification.SortDescending(new SortCustomerByNameSpecification());
                     break;
                 default:
-                    specification = specification.SortAscending(new CustomerSortByNameSpecification());
+                    specification = specification.SortAscending(new SortCustomerByNameSpecification());
                     break;
             }
 
@@ -334,7 +336,8 @@ namespace Crud.Test.Repositories.Customers
             {
                  new Customer
                 {
-                    Name = "Customer 1",
+                    FirstName = "Customer",
+                    LastName = "1",
                     Email = "customer1@example.com",
                     PhoneNumber = "1234567890",
                     Address = string.Empty,
@@ -346,7 +349,8 @@ namespace Crud.Test.Repositories.Customers
                 },
                 new Customer
                  {
-                     Name = "Customer 2",
+                     FirstName = "Customer",
+                     LastName = "2",
                      Email = "customer2@example.com",
                      PhoneNumber = "9876543210",
                      Address = string.Empty,
@@ -357,7 +361,8 @@ namespace Crud.Test.Repositories.Customers
                  },
                 new Customer
                 {
-                    Name = "Customer 3",
+                    FirstName = "Customer",
+                    LastName = "3",
                     Email = "customer3@example.com",
                     PhoneNumber = "5555555555",
                     Address = string.Empty,
@@ -368,7 +373,8 @@ namespace Crud.Test.Repositories.Customers
                 },
                 new Customer
                 {
-                    Name = "Customer 4",
+                    FirstName = "Customer",
+                    LastName = "4",
                     Email = "customer4@example.com",
                     PhoneNumber = "9999999999",
                     Address = string.Empty,
@@ -380,7 +386,8 @@ namespace Crud.Test.Repositories.Customers
                 },
                 new Customer
                 {
-                    Name = "Customer 5",
+                    FirstName = "Customer",
+                    LastName = "5",
                     Email = "customer5@example.com",
                     PhoneNumber = "7777777777",
                     Address = string.Empty,

@@ -1,44 +1,43 @@
 ﻿using System.Linq.Expressions;
 
-namespace RepositoryService.Data.Core.Specifications;
+namespace Crud.Data.Core.Specifications;
 
+/// <summary>
+/// Represents a composite specification that combines two specifications using a logical OR operator.
+/// </summary>
+/// <typeparam name="T">The type of the entity.</typeparam>
 public sealed class OrSpecification<T> : Specification<T>
 {
     private readonly Specification<T> _left;
     private readonly Specification<T> _right;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="OrSpecification{T}"/> class.
+    /// </summary>
+    /// <param name="left">The left specification to combine.</param>
+    /// <param name="right">The right specification to combine.</param>
     public OrSpecification(Specification<T> left, Specification<T> right)
     {
-        _right = right;
-        _left = left;
+        _left = left ?? throw new ArgumentNullException(nameof(left));
+        _right = right ?? throw new ArgumentNullException(nameof(right));
     }
 
+    /// <summary>
+    /// Converts the composite specification into a boolean expression.
+    /// </summary>
+    /// <returns>The boolean expression representing the composite specification.</returns>
     public override Expression<Func<T, bool>> ToBoolExpression()
     {
-        Expression<Func<T, bool>> leftExpression = _left.ToBoolExpression();
-        Expression<Func<T, bool>> rightExpression = _right.ToBoolExpression();
+        var leftExpression = _left.ToBoolExpression();
+        var rightExpression = _right.ToBoolExpression();
 
+        // Invoke the right expression using the parameters of the left expression
         var invokedExpression = Expression.Invoke(rightExpression, leftExpression.Parameters);
 
-        return (Expression<Func<T, Boolean>>)Expression.Lambda(Expression.OrElse(leftExpression.Body, invokedExpression), leftExpression.Parameters);
+        // Combine the left and invoked right expressions using the logical OR operator
+        var orExpression = Expression.OrElse(leftExpression.Body, invokedExpression);
+
+        // Create a new lambda expression with the combined expression and the parameters of the left expression
+        return Expression.Lambda<Func<T, bool>>(orExpression, leftExpression.Parameters);
     }
-
-    //private readonly Specification<T> _left;
-    //private readonly Specification<T> _right;
-
-    //public OrSpecification(Specification<T> left, Specification<T> right)
-    //{
-    //    _right = right;
-    //    _left = left;
-    //}
-
-    //public override Expression<Func<T, bool>> ToBoolExpression()
-    //{
-    //    var leftExpression = _left.ToBoolExpression();
-    //    var rightExpression = _right.ToBoolExpression();
-
-    //    var orExpression = Expression.OrElse(leftExpression.Body, rightExpression.Body);
-
-    //    return Expression.Lambda<Func<T, bool>>(orExpression, leftExpression.Parameters.Single());
-    //}
 }

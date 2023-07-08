@@ -1,9 +1,11 @@
-﻿namespace Crud.Domain.Entities;
+﻿namespace Crud.Application.Services.Customers.GetCustomers;
+
+using System.Collections.Generic;
 
 /// <summary>
-/// Represents a customer entity.
+/// Data transfer object (DTO) for representing a customer in a list.
 /// </summary>
-public class Customer
+public class CustomerForListDto
 {
     /// <summary>
     /// Gets or sets the customer ID.
@@ -31,17 +33,7 @@ public class Customer
     public string Address { get; set; }
 
     /// <summary>
-    /// Gets or sets the phone number of the customer.
+    /// Gets or sets the list of sales associated with the customer.
     /// </summary>
-    public string PhoneNumber { get; set; }
-
-    /// <summary>
-    /// Gets or sets the sales associated with the customer.
-    /// </summary>
-    public ICollection<Sale> Sales { get; set; }
-
-    /// <summary>
-    /// Gets the full name of the customer by combining the first name and last name.
-    /// </summary>
-    public string FullName => $"{FirstName} {LastName}";
+    public ICollection<SalesForListDto> Sales { get; set; }
 }
