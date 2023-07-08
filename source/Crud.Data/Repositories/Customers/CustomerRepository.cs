@@ -1,4 +1,5 @@
-﻿using Crud.Data.Core.PagedLists;
+﻿using System.Data.SqlTypes;
+using Crud.Data.Core.PagedLists;
 using Crud.Data.Core.Specifications;
 using Crud.Data.DbContexts;
 using Crud.Data.Repositories.Core.Repositories;
@@ -56,12 +57,13 @@ public class CustomerRepository : Repository<Customer>, ICustomerRepository
     }
 
     /// <summary>
-    /// Retrieves a list of all customers.
+    /// Retrieves a customer by their ID from the database.
     /// </summary>
-    /// <returns>A list of all customers.</returns>
-    public async Task<List<Customer>> GetCustomers()
+    /// <param name="customerId">The ID of the customer to retrieve.</param>
+    /// <returns>The customer with the specified ID.</returns>
+    public async Task<Customer> GetCustomer(int customerId)
     {
-        return await CrudDbContext
+        var customer = await CrudDbContext
             .Customer
             .Include(customer => customer.Sales)
             .ThenInclude(sale => sale.Product)
@@ -74,13 +76,16 @@ public class CustomerRepository : Repository<Customer>, ICustomerRepository
                 PhoneNumber = customer.PhoneNumber,
                 Sales = customer.Sales.Select(sale => new Sale
                 {
+                    ProductId = sale.ProductId,
                     Product = new Product
                     {
                         Name = sale.Product.Name
                     }
                 }).ToList()
             })
-            .ToListAsync();
+            .FirstOrDefaultAsync(customer => customer.CustomerId == customerId);
+
+        return customer ?? new NullCustomer();
     }
 
     /// <summary>

@@ -1,5 +1,6 @@
 ﻿using Crud.Application.Core.ResourceParameters;
 using Crud.Application.Core.Result;
+using Crud.Application.Services.Customers.GetCustomers.Models;
 
 namespace Crud.Application.Services.Customers.GetCustomers;
 

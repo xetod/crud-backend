@@ -11,10 +11,11 @@ namespace Crud.Data.Repositories.Customers;
 public interface ICustomerRepository : IRepository<Customer>
 {
     /// <summary>
-    /// Retrieves a list of all customers.
+    /// Retrieves a customer by their ID from the database.
     /// </summary>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the list of all customers.</returns>
-    Task<List<Customer>> GetCustomers();
+    /// <param name="customerId">The ID of the customer to retrieve.</param>
+    /// <returns>The customer with the specified ID.</returns>
+    Task<Customer> GetCustomer(int customerId);
 
     /// <summary>
     /// Retrieves a paged list of customers based on the specified specification, current page, and page size.

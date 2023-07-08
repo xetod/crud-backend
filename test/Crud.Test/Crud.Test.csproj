@@ -30,8 +30,4 @@
     <ProjectReference Include="..\..\source\Crud.Domain\Crud.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Crud.Application.Core.ResourceParameters;
 using Crud.Application.Core.Result;
+using Crud.Application.Services.Customers.GetCustomers.Models;
 using Crud.Application.Services.Customers.GetCustomers.Specifications;
 using Crud.Data.Core.PagedLists;
 using Crud.Data.Core.Specifications;

@@ -1,4 +1,5 @@
-﻿using Crud.Application.Services.Customers.GetCustomers;
+﻿using Crud.Application.Services.Customers.GetCustomer;
+using Crud.Application.Services.Customers.GetCustomers;
 
 namespace Crud.Api.Core.DependencyInjections;
 
@@ -15,6 +16,7 @@ public static class CustomerCollectionExtensions
     public static IServiceCollection AddCustomerServices(this IServiceCollection services)
     {
         services.AddScoped<IGetCustomers, GetCustomers>();
+        services.AddScoped<IGetCustomer, GetCustomer>();
 
         return services;
     }

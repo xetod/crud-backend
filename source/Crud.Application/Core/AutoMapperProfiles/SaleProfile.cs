@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Crud.Application.Services.Customers.GetCustomers;
+using Crud.Application.Services.Customers.GetCustomer.Models;
+using Crud.Application.Services.Customers.GetCustomers.Models;
 using Crud.Domain.Entities;
 
 namespace Crud.Application.Core.AutoMapperProfiles;
@@ -14,7 +15,12 @@ public class SaleProfile : Profile
     /// </summary>
     public SaleProfile()
     {
-        CreateMap<Sale, SalesForListDto>()
+        CreateMap<Sale, SaleForListDto>()
             .ForMember(dto => dto.ProductName, expression => expression.MapFrom(sale => sale.Product.Name));
+
+        CreateMap<Sale, SaleForDetailDto>()
+            .ForMember(dto => dto.ProductName, expression => expression.MapFrom(sale => sale.Product.Name));
+
+
     }
 }

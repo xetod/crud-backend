@@ -15,4 +15,9 @@
     <ProjectReference Include="..\Crud.Data\Crud.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Customers\CreateCustomer\Models\" />
+    <Folder Include="Services\Customers\GetCustomer\Models\" />
+  </ItemGroup>
+
 </Project>

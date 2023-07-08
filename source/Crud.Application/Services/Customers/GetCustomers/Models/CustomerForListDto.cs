@@ -1,4 +1,4 @@
-﻿namespace Crud.Application.Services.Customers.GetCustomers;
+﻿namespace Crud.Application.Services.Customers.GetCustomers.Models;
 
 using System.Collections.Generic;
 
@@ -35,5 +35,5 @@ public class CustomerForListDto
     /// <summary>
     /// Gets or sets the list of sales associated with the customer.
     /// </summary>
-    public ICollection<SalesForListDto> Sales { get; set; }
+    public ICollection<SaleForListDto> Sales { get; set; }
 }

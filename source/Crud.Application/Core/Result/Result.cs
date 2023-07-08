@@ -41,17 +41,6 @@ public class Result
     }
 
     /// <summary>
-    /// Creates a failure result with the specified error message and optional HTTP status code.
-    /// </summary>
-    /// <param name="message">The error message.</param>
-    /// <param name="statusCode">The HTTP status code associated with the result. Defaults to HttpStatusCode.BadRequest.</param>
-    /// <returns>The failure result.</returns>
-    public static Result Fail(string message, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
-    {
-        return new Result(false, message, statusCode);
-    }
-
-    /// <summary>
     /// Creates a typed failure result with the specified error message and optional HTTP status code.
     /// </summary>
     /// <typeparam name="T">The type of the result value.</typeparam>

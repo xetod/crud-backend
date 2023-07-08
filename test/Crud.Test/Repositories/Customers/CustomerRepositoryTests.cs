@@ -1,4 +1,5 @@
-﻿using Crud.Application.Services.Customers.GetCustomers;
+﻿using System.ComponentModel;
+using Crud.Application.Services.Customers.GetCustomers;
 using Crud.Application.Services.Customers.GetCustomers.Specifications;
 using Crud.Data.Core.Specifications;
 using Crud.Data.Repositories.Customers;
@@ -7,10 +8,13 @@ using Crud.Test.Helpers;
 
 namespace Crud.Test.Repositories.Customers
 {
+    [Category("CustomerRepository")]
     public class CustomerRepositoryTests
     {
+        //Get Customer
         [Fact]
-        public async Task GetCustomers_ReturnsAllCustomersWithSalesAndProducts()
+        [Trait("CustomerRepository", "GetCustomer")]
+        public async Task GetCustomer_ReturnCustomerWithSalesAndProducts()
         {
             // Arrange
             using var factory = new CrudDbContextFactory();
@@ -24,40 +28,29 @@ namespace Crud.Test.Repositories.Customers
             var sut = new CustomerRepository(dbContext);
 
             // Act
-            var result = await sut.GetCustomers();
-            result = result.Take(2).ToList();
+            var result = await sut.GetCustomer(1);
 
             // Assert
-            // Ensure all customers are retrieved
-            Assert.Equal(2, result.Count);
+            Assert.NotNull(result);
 
-            // Check customer 1 and its sales
-            var firstCustomer = result.FirstOrDefault(customer => customer.FirstName == "Customer" && customer.LastName == "1");
-            Assert.NotNull(firstCustomer);
-            Assert.Equal("customer1@example.com", firstCustomer.Email);
-            Assert.Equal("1234567890", firstCustomer.PhoneNumber);
-            Assert.Equal(2, firstCustomer.Sales.Count);
-            Assert.Contains(firstCustomer.Sales, sale => sale.Product.Name == "Product 1");
-            Assert.Contains(firstCustomer.Sales, sale => sale.Product.Name == "Product 2");
-
-            // Check customer 2 and its sales
-            var secondCustomer = result.FirstOrDefault(customer => customer.FirstName == "Customer" && customer.LastName == "2");
-            Assert.NotNull(secondCustomer);
-            Assert.Equal("customer2@example.com", secondCustomer.Email);
-            Assert.Equal("9876543210", secondCustomer.PhoneNumber);
-            Assert.Single(secondCustomer.Sales);
-            Assert.Contains(secondCustomer.Sales, sale => sale.Product.Name == "Product 1");
+            Assert.NotNull(result);
+            Assert.Equal("customer1@example.com", result.Email);
+            Assert.Equal("1234567890", result.PhoneNumber);
+            Assert.Equal(2, result.Sales.Count);
+            Assert.Contains(result.Sales, sale => sale.Product.Name == "Product 1");
+            Assert.Contains(result.Sales, sale => sale.Product.Name == "Product 2");
         }
 
         [Fact]
-        public async Task GetCustomers_ReturnsAllCustomersWithNoSales()
+        [Trait("CustomerRepository", "GetCustomer")]
+        public async Task GetCustomer_ReturnsCustomerWithNoSales()
         {
             // Arrange
             using var factory = new CrudDbContextFactory();
             await using var dbContext = factory.CreateContext();
 
             // Create and seed test data
-            var customer1 = new Customer
+            var customer = new Customer
             {
                 FirstName = "Customer",
                 LastName = "1",
@@ -66,42 +59,26 @@ namespace Crud.Test.Repositories.Customers
                 Address = "address 1"
             };
 
-            var customer2 = new Customer
-            {
-                FirstName = "Customer",
-                LastName = "2",
-                Email = "customer2@example.com",
-                PhoneNumber = "9876543210",
-                Address = "address 2"
-            };
-
-            dbContext.Customer.AddRange(customer1, customer2);
+            dbContext.Customer.AddRange(customer);
             await dbContext.SaveChangesAsync();
 
             var sut = new CustomerRepository(dbContext);
 
             // Act
-            var result = await sut.GetCustomers();
+            var result = await sut.GetCustomer(1);
+
             // Ensure all customers are retrieved
-            Assert.Equal(2, result.Count);
+            Assert.NotNull(result);
 
-            // Check customer 1 
-            var firstCustomer = result.FirstOrDefault(customer => customer.FirstName == "Customer" && customer.LastName == "1");
-            Assert.NotNull(firstCustomer);
-            Assert.Equal("customer1@example.com", firstCustomer.Email);
-            Assert.Equal("1234567890", firstCustomer.PhoneNumber);
-            Assert.Empty(firstCustomer.Sales);
-
-            // Check customer 2
-            var secondCustomer = result.FirstOrDefault(customer => customer.FirstName == "Customer" && customer.LastName == "2");
-            Assert.NotNull(secondCustomer);
-            Assert.Equal("customer2@example.com", secondCustomer.Email);
-            Assert.Equal("9876543210", secondCustomer.PhoneNumber);
-            Assert.Empty(secondCustomer.Sales);
+            Assert.NotNull(result);
+            Assert.Equal("customer1@example.com", result.Email);
+            Assert.Equal("1234567890", result.PhoneNumber);
+            Assert.Empty(result.Sales);
         }
 
         [Fact]
-        public async Task GetCustomers_ReturnsEmptyWhenNoCustomerInDb()
+        [Trait("CustomerRepository", "GetCustomer")]
+        public async Task GetCustomer_ReturnsEmptyWhenCustomerNotFound()
         {
             // Arrange
             using var factory = new CrudDbContextFactory();
@@ -110,17 +87,46 @@ namespace Crud.Test.Repositories.Customers
             var sut = new CustomerRepository(dbContext);
 
             // Act
-            var result = await sut.GetCustomers();
+            var result = await sut.GetCustomer(1);
 
             // Assert
-            Assert.Empty(result);
+            Assert.NotNull(result);
+            Assert.Empty(result.FirstName);
+            Assert.Empty(result.LastName);
+            Assert.Equal(-1, result.CustomerId);
+
+        }
+
+        [Fact]
+        [Trait("CustomerRepository", "GetCustomer")]
+        public async Task GetCustomer_ThrowsNoExceptionWhenCustomerNotFound()
+        {
+            // Arrange
+            using var factory = new CrudDbContextFactory();
+            await using var dbContext = factory.CreateContext();
+            var sut = new CustomerRepository(dbContext);
+
+            // Act and Assert
+            try
+            {
+                await sut.GetCustomer(1);
+            }
+            catch (Exception ex)
+            {
+                // Assert
+                Assert.True(false, $"Expected no exception, but caught {ex.GetType().Name}: {ex.Message}");
+            }
+
+            // Assert
+            Assert.True(true);
         }
 
 
 
 
-
+        //Get Customers With Pagination
         [Fact]
+        [Trait("GetCustomersWithPagination", "GetCustomer")]
         public async Task GetCustomersWithPagination_ReturnsThreePages()
         {
             // Arrange
@@ -146,6 +152,7 @@ namespace Crud.Test.Repositories.Customers
         }
 
         [Fact]
+        [Trait("GetCustomersWithPagination", "GetCustomer")]
         public async Task GetCustomersWithPagination_ReturnsAscendingSortedList()
         {
             // Arrange
@@ -175,6 +182,7 @@ namespace Crud.Test.Repositories.Customers
         }
 
         [Fact]
+        [Trait("GetCustomersWithPagination", "GetCustomer")]
         public async Task GetCustomersWithPagination_ReturnsDescendingSortedList()
         {
             // Arrange
@@ -204,6 +212,7 @@ namespace Crud.Test.Repositories.Customers
         }
 
         [Fact]
+        [Trait("GetCustomersWithPagination", "GetCustomer")]
         public async Task GetCustomersWithPagination_ReturnsPaginatedListWithFilteredSearchText()
         {
             // Arrange
@@ -229,6 +238,7 @@ namespace Crud.Test.Repositories.Customers
         }
 
         [Fact]
+        [Trait("GetCustomersWithPagination", "GetCustomer")]
         public async Task GetCustomersWithPagination_ReturnsAllCustomers()
         {
             // Arrange
@@ -266,6 +276,7 @@ namespace Crud.Test.Repositories.Customers
         }
 
         [Fact]
+        [Trait("GetCustomersWithPagination", "GetCustomer")]
         public async Task GetCustomersWithPagination_ReturnsEmptyWhenNoCustomerInDb()
         {
             // Arrange

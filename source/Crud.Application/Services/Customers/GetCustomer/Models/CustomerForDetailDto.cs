@@ -1,9 +1,9 @@
-﻿namespace Crud.Domain.Entities;
+﻿namespace Crud.Application.Services.Customers.GetCustomer.Models;
 
 /// <summary>
-/// Represents a customer entity.
+/// Data transfer object (DTO) for representing a customer's detail.
 /// </summary>
-public class Customer
+public class CustomerForDetailDto
 {
     /// <summary>
     /// Gets or sets the customer ID.
@@ -38,12 +38,5 @@ public class Customer
     /// <summary>
     /// Gets or sets the sales associated with the customer.
     /// </summary>
-    public ICollection<Sale> Sales { get; set; }
-
-    /// <summary>
-    /// Gets the full name of the customer by combining the first name and last name.
-    /// </summary>
-    public string FullName => $"{FirstName} {LastName}";
-
-    public bool IsEmpty() => CustomerId == -1;
+    public ICollection<SaleForDetailDto> Sales { get; set; }
 }

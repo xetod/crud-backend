@@ -3,10 +3,14 @@ using Crud.Api.Controllers;
 using Crud.Application.Core.AutoMapperProfiles;
 using Crud.Application.Core.ResourceParameters;
 using Crud.Application.Core.Result;
+using Crud.Application.Services.Customers.GetCustomer;
+using Crud.Application.Services.Customers.GetCustomer.Models;
 using Crud.Application.Services.Customers.GetCustomers;
+using Crud.Application.Services.Customers.GetCustomers.Models;
 using Crud.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System.Net;
 
 namespace Crud.Test.Controllers;
 
@@ -14,6 +18,7 @@ public class CustomerControllerTests
 {
     private readonly CustomerController _customerController;
     private readonly Mock<IGetCustomers> _getCustomersMock;
+    private readonly Mock<IGetCustomer> _getCustomerMock;
     private readonly IMapper _mapper;
 
     public CustomerControllerTests()
@@ -26,10 +31,13 @@ public class CustomerControllerTests
         });
         _mapper = new Mapper(mapperConfiguration);
         _getCustomersMock = new Mock<IGetCustomers>();
-        _customerController = new CustomerController(_getCustomersMock.Object);
+        _getCustomerMock = new Mock<IGetCustomer>();
+        _customerController = new CustomerController(_getCustomersMock.Object, _getCustomerMock.Object);
     }
 
+    // Get Customer
     [Fact]
+    [Trait("CustomerController", "GetCustomers")]
     public async Task GetCustomers_WithValidParameter_ReturnsOkResultWithCustomers()
     {
         // Arrange
@@ -67,6 +75,53 @@ public class CustomerControllerTests
         Assert.Equal("Customer 1", $"{list.Results[0].FirstName} {list.Results[0].LastName}");
         Assert.Equal("Customer 2", $"{list.Results[1].FirstName} {list.Results[1].LastName}");
     }
+
+
+
+    // Get Customers
+    [Fact]
+    [Trait("CustomerController", "GetCustomer")]
+    public async Task GetCustomer_CustomerFound_ReturnsOkResultWithData()
+    {
+        // Arrange
+        var customerId = 123;
+        var customerData = new CustomerForDetailDto { CustomerId = customerId, FirstName = "John" };
+        var successfulResult = Result.Ok<CustomerForDetailDto>(customerData);
+
+        _getCustomerMock.Setup(mock => mock.ExecuteAsync(customerId)).ReturnsAsync(successfulResult);
+
+        // Act
+        var result = await _customerController.GetCustomer(customerId);
+
+        // Assert
+        Assert.IsType<OkObjectResult>(result);
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal(customerData, okResult.Value);
+    }
+
+    [Fact]
+    [Trait("CustomerController", "GetCustomer")]
+    public async Task GetCustomer_CustomerNotFound_ReturnsStatusCodeWithResultObject()
+    {
+        // Arrange
+        var customerId = 123;
+        var errorMessage = "Customer not found.";
+        var statusCode = HttpStatusCode.NotFound;
+        var failedResult = Result.Fail<CustomerForDetailDto>(errorMessage);
+        
+        _getCustomerMock.Setup(mock => mock.ExecuteAsync(customerId)).ReturnsAsync(failedResult);
+
+        // Act
+        var result = await _customerController.GetCustomer(customerId);
+
+        // Assert
+        Assert.IsType<ObjectResult>(result);
+        var objectResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal((int)failedResult.StatusCode, objectResult.StatusCode);
+        Assert.Equal(failedResult, objectResult.Value);
+    }
+
+
 
     private List<Product> GetProductSamples()
     {
