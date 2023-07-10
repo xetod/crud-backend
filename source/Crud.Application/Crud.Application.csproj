@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.6.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,8 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Customers\CreateCustomer\Models\" />
+    <Folder Include="Services\Customers\CreateCustomer\Factory\" />
     <Folder Include="Services\Customers\GetCustomer\Models\" />
+    <Folder Include="Services\Customers\UpdateCustomer\Validation\" />
+    <Folder Include="Services\Products\GetProducts\Models\" />
   </ItemGroup>
 
 </Project>

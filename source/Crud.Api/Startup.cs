@@ -1,6 +1,8 @@
 ﻿using Crud.Api.Core.AutoMapper;
 using Crud.Api.Core.ConfigureDbContexts;
 using Crud.Api.Core.DependencyInjections;
+using Crud.Api.Core.DependencyInjections.Customers;
+using Crud.Api.Core.DependencyInjections.Products;
 using Crud.Api.Core.Seed;
 using Microsoft.OpenApi.Models;
 
@@ -55,10 +57,16 @@ public class Startup
             });
         });
 
+        services.AddCors(p => p.AddPolicy("cors", builder =>
+        {
+            builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+        }));
+
         services.AddAutoMapperConfiguration()
             .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         services.AddUnitOfWorkServices()
+            .AddProductServices()
             .AddCustomerServices();
     }
 
@@ -66,8 +74,7 @@ public class Startup
     /// Configures the HTTP request pipeline.
     /// </summary>
     /// <param name="app">The <see cref="IApplicationBuilder"/> instance.</param>
-    /// <param name="env">The current hosting environment.</param>
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app)
     {
         app.UseSwagger();
         app.UseSwaggerUI(options =>
@@ -81,9 +88,15 @@ public class Startup
 
         app.UseAuthorization();
 
+        app.UseHttpsRedirection();
+        app.UseRouting();
+        app.UseCors("cors");
+        app.UseAuthorization();
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
         });
+
     }
 }

@@ -3,7 +3,7 @@ using Crud.Application.Services.Customers.GetCustomer.Models;
 using Crud.Application.Services.Customers.GetCustomers.Models;
 using Crud.Domain.Entities;
 
-namespace Crud.Application.Core.AutoMapperProfiles;
+namespace Crud.Application.Core.AutoMapperProfiles.Sales;
 
 /// <summary>
 /// AutoMapper profile for mapping properties of <see cref="Sale"/>.

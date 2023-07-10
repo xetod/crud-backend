@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
-using Crud.Application.Core.AutoMapperProfiles;
+using Crud.Application.Core.AutoMapperProfiles.Customers;
+using Crud.Application.Core.AutoMapperProfiles.Products;
+using Crud.Application.Core.AutoMapperProfiles.Sales;
 
 namespace Crud.Api.Core.AutoMapper;
 
@@ -27,6 +29,9 @@ public static class AutoMapperConfigurationExtensions
 
             // Add mappings defined in SaleProfile
             configurationExpression.AddProfile(new SaleProfile());
+
+            // Add mappings defined in ProductProfile
+            configurationExpression.AddProfile(new ProductProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();

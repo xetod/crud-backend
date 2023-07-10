@@ -5,6 +5,11 @@
 /// </summary>
 public class Customer
 {
+    public Customer()
+    {
+        Sales = new List<Sale>();
+    }
+
     /// <summary>
     /// Gets or sets the customer ID.
     /// </summary>
