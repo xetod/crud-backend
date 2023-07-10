@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Crud.Application.Core.AutoMapperProfiles;
+using Crud.Application.Core.AutoMapperProfiles.Customers;
+using Crud.Application.Core.AutoMapperProfiles.Sales;
 using Crud.Application.Services.Customers.GetCustomers;
 using Crud.Data.Core.PagedLists;
 using Crud.Data.Core.Specifications;
@@ -7,7 +8,7 @@ using Crud.Data.Repositories.Core.UnitOfWorks;
 using Crud.Domain.Entities;
 using Moq;
 
-namespace Crud.Test.Services;
+namespace Crud.Test.Services.Customers;
 
 public class GetCustomersTests
 {
@@ -27,7 +28,7 @@ public class GetCustomersTests
         _unitOfWorkMock = new Mock<IUnitOfWork>();
         _getCustomers = new GetCustomers(_unitOfWorkMock.Object, _mapper);
     }
-    
+
     [Fact]
     [Trait("Services", "GetCustomers")]
     public async Task ExecuteAsync_ReturnsAllRecords()
@@ -142,7 +143,7 @@ public class GetCustomersTests
             parameter.CurrentPage,
             parameter.PageSize), Times.Once);
     }
-    
+
     [Fact]
     [Trait("Services", "GetCustomers")]
     public async Task ExecuteAsync_ReturnsAscendingSortedList()
@@ -269,7 +270,7 @@ public class GetCustomersTests
             parameter.CurrentPage,
             parameter.PageSize), Times.Once);
     }
-    
+
     private List<Product> GetProductSamples()
     {
         var products = new List<Product>

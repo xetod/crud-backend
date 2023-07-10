@@ -7,7 +7,7 @@ using Crud.Data.Repositories.Customers;
 using Crud.Domain.Entities;
 using Moq;
 
-namespace Crud.Test.Services;
+namespace Crud.Test.Services.Customers;
 
 using Moq;
 using Xunit;
