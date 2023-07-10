@@ -9,10 +9,9 @@ namespace Crud.Application.Services.Customers.CreateCustomer;
 public interface ICreateCustomer
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="CreateCustomer"/> class.
+    /// Executes the operation to create a customer asynchronously.
     /// </summary>
-    /// <param name="unitOfWork">The unit of work.</param>
-    /// <param name="customerFactory">The customer factory.</param>
-    /// <param name="validator">The validator for customer creation data transfer object.</param>
+    /// <param name="model">The data transfer object containing the customer information.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the operation result.</returns>
     Task<Result> ExecuteAsync(CustomerForCreateDto model);
 }
