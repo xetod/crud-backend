@@ -13,6 +13,9 @@ public interface IUnitOfWork : IDisposable
     /// </summary>
     ICustomerRepository Customer { get; }
 
+    /// <summary>
+    /// Gets the product repository.
+    /// </summary>
     IProductRepository Product { get; }
 
     /// <summary>

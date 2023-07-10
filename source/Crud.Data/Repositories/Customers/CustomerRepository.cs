@@ -1,5 +1,4 @@
-﻿using System.Data.SqlTypes;
-using Crud.Data.Core.PagedLists;
+﻿using Crud.Data.Core.PagedLists;
 using Crud.Data.Core.Specifications;
 using Crud.Data.DbContexts;
 using Crud.Data.Repositories.Core.Repositories;
@@ -47,6 +46,7 @@ public class CustomerRepository : Repository<Customer>, ICustomerRepository
                     }
                 }).ToList()
             })
+            .AsNoTracking()
             .AsQueryable();
 
         query = SpecificationEvaluator<Customer>.GetQuery(query, specification);
@@ -67,26 +67,73 @@ public class CustomerRepository : Repository<Customer>, ICustomerRepository
             .Customer
             .Include(customer => customer.Sales)
             .ThenInclude(sale => sale.Product)
-            .Select(customer => new Customer
-            {
-                CustomerId = customer.CustomerId,
-                FirstName = customer.FirstName,
-                LastName = customer.LastName,
-                Email = customer.Email,
-                PhoneNumber = customer.PhoneNumber,
-                Sales = customer.Sales.Select(sale => new Sale
-                {
-                    ProductId = sale.ProductId,
-                    Product = new Product
-                    {
-                        Name = sale.Product.Name
-                    }
-                }).ToList()
-            })
+            .AsNoTracking()
             .FirstOrDefaultAsync(customer => customer.CustomerId == customerId);
 
         return customer ?? new NullCustomer();
     }
+
+    /// <summary>
+    /// Updates a customer entity in the database based on the provided updated customer and the existing customer from the database.
+    /// </summary>
+    /// <param name="customerToUpdate">The updated customer entity.</param>
+    /// <param name="customerFromDb">The existing customer entity from the database.</param>
+    public void Update(Customer customerToUpdate, Customer customerFromDb)
+    {
+        // Check if either customerToUpdate or customerFromDb is null, and return if true
+        if (customerFromDb == null || customerToUpdate == null)
+            return;
+
+        // Check if the CustomerId of customerToUpdate matches the CustomerId of customerFromDb, and return if not matching
+        if (customerToUpdate.CustomerId != customerFromDb.CustomerId)
+            return;
+
+        // Check if either CustomerId is less than or equal to 0, and return if true
+        if (customerToUpdate.CustomerId <= 0 || customerFromDb.CustomerId <= 0)
+            return;
+
+        // Get the entity entry for the customerFromDb
+        var dbEntry = Context.Entry(customerFromDb);
+
+        // Update the properties of customerFromDb with the values from customerToUpdate
+        dbEntry.CurrentValues.SetValues(customerToUpdate);
+
+        // Iterate over each sale in customerToUpdate
+        foreach (var sale in customerToUpdate.Sales)
+        {
+            // Check if the SaleId is not default (i.e., already exists in the database)
+            if (sale.SaleId != default)
+            {
+                // Mark the sale entity as modified
+                CrudDbContext.Entry(sale).State = EntityState.Modified;
+            }
+
+            // Check if the SaleId is default or less than 0 (i.e., new sale to be added)
+            if (sale.SaleId == default || sale.SaleId < 0)
+            {
+                // Mark the sale entity as added
+                CrudDbContext.Entry(sale).State = EntityState.Added;
+            }
+        }
+
+        // Iterate over each sale in customerFromDb
+        foreach (var saleFromDb in customerFromDb.Sales)
+        {
+            // Check if any sale in customerToUpdate has the same SaleId as saleFromDb
+            if (customerToUpdate.Sales.Any(sale => sale.SaleId == saleFromDb.SaleId))
+                continue;
+
+            // Add the saleFromDb to customerToUpdate's sales collection
+            customerToUpdate.Sales.Add(saleFromDb);
+
+            // Mark the sale entity as deleted
+            CrudDbContext.Entry(customerToUpdate.Sales.Last()).State = EntityState.Deleted;
+        }
+
+        // Mark the customerToUpdate entity as modified
+        CrudDbContext.Entry(customerToUpdate).State = EntityState.Modified;
+    }
+
 
     /// <summary>
     /// Gets the CrudDbContext as the underlying CrudDbContext instance.

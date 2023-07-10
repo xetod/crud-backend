@@ -25,4 +25,11 @@ public interface ICustomerRepository : IRepository<Customer>
     /// <param name="pageSize">The number of customers to include in each page.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the paged list of customers based on the specified criteria.</returns>
     Task<PagedList<Customer>> GetCustomersWithPagination(Specification<Customer> specification, int currentPage = 0, int pageSize = 0);
+
+    /// <summary>
+    /// Updates a customer entity in the database based on the provided updated customer and the existing customer from the database.
+    /// </summary>
+    /// <param name="customerToUpdate">The updated customer entity.</param>
+    /// <param name="customerFromDb">The existing customer entity from the database.</param>
+    void Update(Customer customerToUpdate, Customer customerFromDb);
 }

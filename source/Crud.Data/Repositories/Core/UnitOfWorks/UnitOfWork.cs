@@ -27,6 +27,9 @@ public class UnitOfWork : IUnitOfWork
     /// </summary>
     public ICustomerRepository Customer { get; }
 
+    /// <summary>
+    /// Gets the product repository.
+    /// </summary>
     public IProductRepository Product { get; }
 
     /// <summary>
