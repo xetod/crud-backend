@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+
 namespace Crud.Data.Repositories.Core.Repositories;
 
 /// <summary>
@@ -17,4 +19,11 @@ public interface IRepository<TEntity> where TEntity : class
     /// </summary>
     /// <param name="entity">The entity to add.</param>
     Task AddAsync(TEntity entity);
+
+    /// <summary>
+    /// Retrieves the first entity that matches the specified condition asynchronously.
+    /// </summary>
+    /// <param name="match">The condition to match.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the first entity that matches the condition, or the default value if no such entity is found.</returns>
+    Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> match);
 }

@@ -1,4 +1,5 @@
 using Crud.Data.Repositories.Customers;
+using Crud.Data.Repositories.Products;
 
 namespace Crud.Data.Repositories.Core.UnitOfWorks;
 
@@ -11,6 +12,8 @@ public interface IUnitOfWork : IDisposable
     /// Gets the customer repository.
     /// </summary>
     ICustomerRepository Customer { get; }
+
+    IProductRepository Product { get; }
 
     /// <summary>
     /// Asynchronously saves the changes made in the unit of work to the underlying data store.

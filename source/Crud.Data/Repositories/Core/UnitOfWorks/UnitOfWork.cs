@@ -1,5 +1,6 @@
 using Crud.Data.DbContexts;
 using Crud.Data.Repositories.Customers;
+using Crud.Data.Repositories.Products;
 
 namespace Crud.Data.Repositories.Core.UnitOfWorks;
 
@@ -18,12 +19,15 @@ public class UnitOfWork : IUnitOfWork
     {
         _crudDbContext = crudDbContext;
         Customer = new CustomerRepository(_crudDbContext);
+        Product = new ProductRepository(_crudDbContext);
     }
 
     /// <summary>
     /// Gets the customer repository.
     /// </summary>
     public ICustomerRepository Customer { get; }
+
+    public IProductRepository Product { get; }
 
     /// <summary>
     /// Asynchronously saves the changes made in the unit of work to the underlying data store.

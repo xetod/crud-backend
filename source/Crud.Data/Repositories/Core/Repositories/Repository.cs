@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Crud.Data.Repositories.Core.Repositories;
 
@@ -20,6 +21,16 @@ public class Repository<TEntity> : IRepository<TEntity>, IDisposable where TEnti
     public Repository(DbContext context)
     {
         Context = context;
+    }
+
+    /// <summary>
+    /// Retrieves the first entity that matches the specified condition asynchronously.
+    /// </summary>
+    /// <param name="match">The condition to match.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the first entity that matches the condition, or the default value if no such entity is found.</returns>
+    public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> match)
+    {
+        return await Context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(match);
     }
 
     /// <summary>
