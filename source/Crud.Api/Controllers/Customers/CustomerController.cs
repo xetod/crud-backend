@@ -1,5 +1,6 @@
 ﻿using Crud.Application.Services.Customers.CreateCustomer;
 using Crud.Application.Services.Customers.CreateCustomer.Models;
+using Crud.Application.Services.Customers.DeleteCustomer;
 using Crud.Application.Services.Customers.GetCustomer;
 using Crud.Application.Services.Customers.GetCustomers;
 using Crud.Application.Services.Customers.UpdateCustomer;
@@ -19,6 +20,7 @@ public class CustomerController : ControllerBase
     private readonly IGetCustomer _getCustomer;
     private readonly ICreateCustomer _createCustomer;
     private readonly IUpdateCustomer _updateCustomer;
+    private readonly IDeleteCustomer _deleteCustomer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CustomerController"/> class.
@@ -27,12 +29,17 @@ public class CustomerController : ControllerBase
     /// <param name="getCustomer">The service responsible for retrieving a single customer.</param>
     /// <param name="createCustomer">The service responsible for creating a new customer.</param>
     /// <param name="updateCustomer">The service responsible for updating an existing customer.</param>
-    public CustomerController(IGetCustomers getCustomers, IGetCustomer getCustomer, ICreateCustomer createCustomer, IUpdateCustomer updateCustomer)
+    public CustomerController(IGetCustomers getCustomers,
+        IGetCustomer getCustomer,
+        ICreateCustomer createCustomer,
+        IUpdateCustomer updateCustomer,
+        IDeleteCustomer deleteCustomer)
     {
         _getCustomers = getCustomers;
         _getCustomer = getCustomer;
         _createCustomer = createCustomer;
         _updateCustomer = updateCustomer;
+        _deleteCustomer = deleteCustomer;
     }
 
 
@@ -107,4 +114,23 @@ public class CustomerController : ControllerBase
             ? Ok()
             : StatusCode((int)customer.StatusCode, customer);
     }
+
+    /// <summary>
+    /// Deletes a customer with the specified ID.
+    /// </summary>
+    /// <param name="customerId">The ID of the customer to delete.</param>
+    /// <returns>
+    /// If the operation is successful, returns an HTTP 204 No Content response.
+    /// If the operation fails, returns the appropriate error status code and error details.
+    /// </returns>
+    [HttpDelete("customers/{customerId}")]
+    public async Task<IActionResult> DeleteCustomer(int customerId)
+    {
+        var result = await _deleteCustomer.ExecuteAsync(customerId);
+
+        return result.Success
+            ? NoContent()
+            : StatusCode((int)result.StatusCode, result);
+    }
+
 }

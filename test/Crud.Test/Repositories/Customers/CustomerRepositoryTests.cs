@@ -95,7 +95,6 @@ public class CustomerRepositoryTests
         Assert.Empty(result.FirstName);
         Assert.Empty(result.LastName);
         Assert.Equal(-1, result.CustomerId);
-
     }
 
     [Fact]

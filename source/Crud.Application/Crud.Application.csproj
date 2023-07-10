@@ -19,6 +19,7 @@
   <ItemGroup>
     <Folder Include="Services\Customers\CreateCustomer\Factory\" />
     <Folder Include="Services\Customers\GetCustomer\Models\" />
+    <Folder Include="Services\Customers\DeleteCustomer\" />
     <Folder Include="Services\Customers\UpdateCustomer\Validation\" />
     <Folder Include="Services\Products\GetProducts\Models\" />
   </ItemGroup>

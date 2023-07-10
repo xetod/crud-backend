@@ -2,6 +2,7 @@
 using Crud.Application.Services.Customers.CreateCustomer.Factory;
 using Crud.Application.Services.Customers.CreateCustomer.Models;
 using Crud.Application.Services.Customers.CreateCustomer.Validation;
+using Crud.Application.Services.Customers.DeleteCustomer;
 using Crud.Application.Services.Customers.GetCustomer;
 using Crud.Application.Services.Customers.GetCustomers;
 using Crud.Application.Services.Customers.UpdateCustomer;
@@ -28,6 +29,7 @@ public static class CustomerCollectionExtensions
         services.AddScoped<ICreateCustomer, CreateCustomer>();
         services.AddScoped<IUpdateCustomer, UpdateCustomer>();
         services.AddScoped<ICustomerFactory, CustomerFactory>();
+        services.AddScoped<IDeleteCustomer, DeleteCustomer>();
         services.AddScoped<IValidator<CustomerForCreateDto>, CustomerForCreationValidator>();
         services.AddScoped<IValidator<CustomerForUpdateDto>, CustomerForUpdateValidator>();
 
