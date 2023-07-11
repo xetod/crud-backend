@@ -69,7 +69,7 @@ public static class SeedData
                 CustomerId = id,
                 Date = new DateTime(),
                 Quantity = new Random().Next(1, 3),
-                UnitPrice = Convert.ToDecimal(Faker.Commerce.Price())
+                UnitPrice = Convert.ToInt32(Convert.ToDecimal(Faker.Commerce.Price()))
             };
 
             sales.Add(sale);
