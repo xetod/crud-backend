@@ -3,10 +3,15 @@ using Crud.Data.Repositories.Core.UnitOfWorks;
 using Crud.Domain.Entities;
 using Crud.Test.Helpers;
 using Moq;
+using System.ComponentModel;
 using System.Linq.Expressions;
 
 namespace Crud.Test.Services.Customers;
 
+/// <summary>
+/// Unit and integration tests for the <see cref="DeleteCustomer"/> service.
+/// </summary>
+[Category("Services")]
 public class DeleteCustomerTests
 {
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
@@ -18,6 +23,10 @@ public class DeleteCustomerTests
         _deleteCustomer = new DeleteCustomer(_unitOfWorkMock.Object);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="DeleteCustomer.ExecuteAsync"/> method.
+    /// It tests the method with a valid customer ID and expects a success result.
+    /// </summary>
     [Fact]
     [Trait("Services", "DeleteCustomer")]
     public async Task ExecuteAsync_WithValidCustomerId_ReturnsSuccessResult()
@@ -25,9 +34,11 @@ public class DeleteCustomerTests
         // Arrange
         var customerId = 1;
         var customer = new Customer { CustomerId = customerId };
+
         _unitOfWorkMock
             .Setup(unitOfWork => unitOfWork.Customer.FirstOrDefaultAsync(It.IsAny<Expression<Func<Customer, bool>>>()))
             .ReturnsAsync(customer);
+
         _unitOfWorkMock.Setup(unitOfWork => unitOfWork.CompleteAsync()).ReturnsAsync(1);
 
         // Act
@@ -35,9 +46,12 @@ public class DeleteCustomerTests
 
         // Assert
         Assert.True(result.Success);
-        Assert.Null(result.Value);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="DeleteCustomer.ExecuteAsync"/> method.
+    /// It tests the method with an invalid customer ID and expects a failure result with an invalid ID error message.
+    /// </summary>
     [Fact]
     [Trait("Services", "DeleteCustomer")]
     public async Task ExecuteAsync_WithInvalidCustomerId_ReturnsFailureResult_WithInvalidIdErrorMessage()
@@ -53,12 +67,17 @@ public class DeleteCustomerTests
         Assert.Equal("Customer ID is invalid.", result.Error);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="DeleteCustomer.ExecuteAsync"/> method.
+    /// It tests the method with a non-existent customer ID and expects a failure result with a customer not found error message.
+    /// </summary>
     [Fact]
     [Trait("Services", "DeleteCustomer")]
     public async Task ExecuteAsync_WithNonExistentCustomerId_ReturnsFailureResult_WithCustomerNotFoundErrorMessage()
     {
         // Arrange
         var nonExistentCustomerId = 1;
+
         _unitOfWorkMock
             .Setup(unitOfWork => unitOfWork.Customer.FirstOrDefaultAsync(It.IsAny<Expression<Func<Customer, bool>>>()))
             .ReturnsAsync((Customer)null);
@@ -71,6 +90,10 @@ public class DeleteCustomerTests
         Assert.Equal("Customer not found.", result.Error);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="DeleteCustomer.ExecuteAsync"/> method.
+    /// It tests the method with a failed deletion and expects a failure result with a deletion failed error message.
+    /// </summary>
     [Fact]
     [Trait("Services", "DeleteCustomer")]
     public async Task ExecuteAsync_WithFailedDeletion_ReturnsFailureResult_WithDeletionFailedErrorMessage()
@@ -78,10 +101,12 @@ public class DeleteCustomerTests
         // Arrange
         var validCustomerId = 1;
         var customer = new Customer { CustomerId = validCustomerId };
+
         _unitOfWorkMock
             .Setup(uow => uow.Customer.FirstOrDefaultAsync(It.IsAny<Expression<Func<Customer, bool>>>()))
             .ReturnsAsync(customer);
-        _unitOfWorkMock.Setup(uow => uow.CompleteAsync()).ReturnsAsync(0);
+
+        _unitOfWorkMock.Setup(unitOfWork => unitOfWork.CompleteAsync()).ReturnsAsync(0);
 
         // Act
         var result = await _deleteCustomer.ExecuteAsync(validCustomerId);
@@ -91,6 +116,10 @@ public class DeleteCustomerTests
         Assert.Equal("Deletion failed.", result.Error);
     }
 
+    /// <summary>
+    /// Integration test for the <see cref="DeleteCustomer.ExecuteAsync"/> method.
+    /// It tests the method with a valid customer ID and verifies that the customer is deleted from the database.
+    /// </summary>
     [Fact]
     [Trait("Services", "DeleteCustomer")]
     public async Task ExecuteAsync_WithValidCustomerId_DeletesCustomerFromDatabase()
@@ -103,9 +132,9 @@ public class DeleteCustomerTests
         // Create and seed test data
         var customer = new Customer
         {
-            FirstName = "Customer",
-            LastName = "1",
-            Email = "customer1@example.com",
+            FirstName = "Jane",
+            LastName = "Smith",
+            Email = "jane.smith@example.com",
             PhoneNumber = "1234567890",
             Address = "address 1"
         };

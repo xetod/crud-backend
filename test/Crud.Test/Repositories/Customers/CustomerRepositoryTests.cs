@@ -9,10 +9,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Crud.Test.Repositories.Customers;
 
-[Category("CustomerRepository")]
+/// <summary>
+/// Integration tests for the <see cref="CustomerRepository"/> class.
+/// </summary>
+[Category("Repositories")]
 public class CustomerRepositoryTests
 {
     //Get Customer
+
+    /// <summary>
+    /// Unit test for the <see cref="CustomerRepository.GetCustomer"/> method.
+    /// It verifies that a customer with sales and products is returned when the customer exists in the database.
+    /// </summary>
     [Fact]
     [Trait("CustomerRepository", "GetCustomer")]
     public async Task GetCustomer_ReturnCustomerWithSalesAndProducts()
@@ -33,8 +41,6 @@ public class CustomerRepositoryTests
 
         // Assert
         Assert.NotNull(result);
-
-        Assert.NotNull(result);
         Assert.Equal("customer1@example.com", result.Email);
         Assert.Equal("1234567890", result.PhoneNumber);
         Assert.Equal(2, result.Sales.Count);
@@ -42,6 +48,10 @@ public class CustomerRepositoryTests
         Assert.Contains(result.Sales, sale => sale.Product.Name == "Product 2");
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="CustomerRepository.GetCustomer"/> method.
+    /// It verifies that a customer with no sales is returned when the customer exists in the database.
+    /// </summary>
     [Fact]
     [Trait("CustomerRepository", "GetCustomer")]
     public async Task GetCustomer_ReturnsCustomerWithNoSales()
@@ -68,15 +78,17 @@ public class CustomerRepositoryTests
         // Act
         var result = await sut.GetCustomer(1);
 
-        // Ensure all customers are retrieved
-        Assert.NotNull(result);
-
+        // Assert
         Assert.NotNull(result);
         Assert.Equal("customer1@example.com", result.Email);
         Assert.Equal("1234567890", result.PhoneNumber);
         Assert.Empty(result.Sales);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="CustomerRepository.GetCustomer"/> method.
+    /// It verifies that an empty customer is returned when the customer is not found in the database.
+    /// </summary>
     [Fact]
     [Trait("CustomerRepository", "GetCustomer")]
     public async Task GetCustomer_ReturnsEmptyWhenCustomerNotFound()
@@ -97,6 +109,10 @@ public class CustomerRepositoryTests
         Assert.Equal(-1, result.CustomerId);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="CustomerRepository.GetCustomer"/> method.
+    /// It verifies that no exception is thrown when the customer is not found in the database.
+    /// </summary>
     [Fact]
     [Trait("CustomerRepository", "GetCustomer")]
     public async Task GetCustomer_ThrowsNoExceptionWhenCustomerNotFound()
@@ -123,8 +139,12 @@ public class CustomerRepositoryTests
 
 
 
-
     //Get Customers With Pagination
+
+    /// <summary>
+    /// Unit test for the <see cref="CustomerRepository.GetCustomersWithPagination"/> method.
+    /// It verifies that three pages of customers are returned when pagination is applied.
+    /// </summary>
     [Fact]
     [Trait("CustomerRepository", "GetCustomersWithPagination")]
     public async Task GetCustomersWithPagination_ReturnsThreePages()
@@ -151,6 +171,10 @@ public class CustomerRepositoryTests
         Assert.Equal(3, result.TotalPages);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="CustomerRepository.GetCustomersWithPagination"/> method.
+    /// It verifies that a sorted ascending list of customers is returned.
+    /// </summary>
     [Fact]
     [Trait("CustomerRepository", "GetCustomersWithPagination")]
     public async Task GetCustomersWithPagination_ReturnsAscendingSortedList()
@@ -181,6 +205,10 @@ public class CustomerRepositoryTests
         Assert.Equal(-1, sorted);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="CustomerRepository.GetCustomersWithPagination"/> method.
+    /// It verifies that a sorted descending list of customers is returned.
+    /// </summary>
     [Fact]
     [Trait("CustomerRepository", "GetCustomersWithPagination")]
     public async Task GetCustomersWithPagination_ReturnsDescendingSortedList()
@@ -211,6 +239,10 @@ public class CustomerRepositoryTests
         Assert.Equal(1, sorted);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="CustomerRepository.GetCustomersWithPagination"/> method.
+    /// It verifies that a paginated list of customers with filtered search text is returned.
+    /// </summary>
     [Fact]
     [Trait("CustomerRepository", "GetCustomersWithPagination")]
     public async Task GetCustomersWithPagination_ReturnsPaginatedListWithFilteredSearchText()
@@ -237,6 +269,10 @@ public class CustomerRepositoryTests
         Assert.Equal(1, result.TotalPages);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="CustomerRepository.GetCustomersWithPagination"/> method.
+    /// It verifies that all customers are returned when pagination is not applied.
+    /// </summary>
     [Fact]
     [Trait("CustomerRepository", "GetCustomersWithPagination")]
     public async Task GetCustomersWithPagination_ReturnsAllCustomers()
@@ -275,6 +311,10 @@ public class CustomerRepositoryTests
         Assert.Contains(secondCustomer.Sales, sale => sale.Product.Name == "Product 1");
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="CustomerRepository.GetCustomersWithPagination"/> method.
+    /// It verifies that an empty list is returned when no customers exist in the database.
+    /// </summary>
     [Fact]
     [Trait("CustomerRepository", "GetCustomersWithPagination")]
     public async Task GetCustomersWithPagination_ReturnsEmptyWhenNoCustomerInDb()
@@ -296,6 +336,11 @@ public class CustomerRepositoryTests
 
 
     //Update
+
+    /// <summary>
+    /// Unit test for the <see cref="CustomerRepository.Update"/> method.
+    /// It verifies that no exception is thrown when null models are provided.
+    /// </summary>
     [Fact]
     [Trait("CustomerRepository", "Update")]
     public async Task Update_NullModels_DoesNotThrowException()
@@ -321,6 +366,10 @@ public class CustomerRepositoryTests
         Assert.True(true);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="CustomerRepository.Update"/> method.
+    /// It verifies that no exception is thrown when a bad update model is provided.
+    /// </summary>
     [Fact]
     [Trait("CustomerRepository", "Update")]
     public async Task Update_BadUpdateModel_DoesNotThrowException()
@@ -365,6 +414,10 @@ public class CustomerRepositoryTests
         Assert.True(true);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="CustomerRepository.Update"/> method.
+    /// It verifies that no exception is thrown when a bad existing model is provided.
+    /// </summary>
     [Fact]
     [Trait("CustomerRepository", "Update")]
     public async Task Update_BadExistingModel_DoesNotThrowException()
@@ -409,6 +462,10 @@ public class CustomerRepositoryTests
         Assert.True(true);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="CustomerRepository.Update"/> method.
+    /// It verifies that an existing customer is successfully updated.
+    /// </summary>
     [Fact]
     [Trait("CustomerRepository", "Update")]
     public async Task Update_ExistingCustomer_SuccessfullyUpdatesCustomer()
@@ -493,8 +550,8 @@ public class CustomerRepositoryTests
     {
         var products = new List<Product>
             {
-                new Product { Name = "Product 1" },
-                new Product { Name = "Product 2" }
+                new Product { Name = "Laptop" },
+                new Product { Name = "Speaker" }
             };
 
         return products;
@@ -506,11 +563,11 @@ public class CustomerRepositoryTests
 
         var customers = new List<Customer>
             {
-                 new Customer
+                new Customer
                 {
-                    FirstName = "Customer",
-                    LastName = "1",
-                    Email = "customer1@example.com",
+                    FirstName = "Jane",
+                    LastName = "Smith",
+                    Email = "jane.smith@example.com",
                     PhoneNumber = "1234567890",
                     Address = string.Empty,
                     Sales = new List<Sale>
@@ -520,53 +577,53 @@ public class CustomerRepositoryTests
                     }
                 },
                 new Customer
-                 {
-                     FirstName = "Customer",
-                     LastName = "2",
-                     Email = "customer2@example.com",
-                     PhoneNumber = "9876543210",
-                     Address = string.Empty,
-                     Sales = new List<Sale>
-                     {
-                         new Sale { Product = products.First() }
-                     }
-                 },
+                {
+                    FirstName = "Phil",
+                    LastName = "Boyce",
+                    Email = "phil.boyce@example.com",
+                    PhoneNumber = "9876543210",
+                    Address = string.Empty,
+                    Sales = new List<Sale>
+                    {
+                        new Sale { Product = products.First() }
+                    }
+                },
                 new Customer
                 {
-                    FirstName = "Customer",
-                    LastName = "3",
+                    FirstName = "Paul",
+                    LastName = "Richardson",
                     Email = "customer3@example.com",
                     PhoneNumber = "5555555555",
                     Address = string.Empty,
                     Sales = new List<Sale>
-                        {
-                            new Sale { Product = products.Last() }
-                        }
+                    {
+                        new Sale { Product = products.Last() }
+                    }
                 },
                 new Customer
                 {
-                    FirstName = "Customer",
-                    LastName = "4",
+                    FirstName = "Will",
+                    LastName = "Showman",
                     Email = "customer4@example.com",
                     PhoneNumber = "9999999999",
                     Address = string.Empty,
                     Sales = new List<Sale>
-                        {
-                            new Sale { Product = products.First() },
-                            new Sale { Product = products.Last() }
-                        }
+                    {
+                        new Sale { Product = products.First() },
+                        new Sale { Product = products.Last() }
+                    }
                 },
                 new Customer
                 {
-                    FirstName = "Customer",
-                    LastName = "5",
+                    FirstName = "Lara",
+                    LastName = "Renze",
                     Email = "customer5@example.com",
                     PhoneNumber = "7777777777",
                     Address = string.Empty,
                     Sales = new List<Sale>
-                        {
-                            new Sale { Product = products.First() }
-                        }
+                    {
+                        new Sale { Product = products.First() }
+                    }
                 }
             };
 

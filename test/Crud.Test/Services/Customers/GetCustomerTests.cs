@@ -1,17 +1,18 @@
 ﻿using AutoMapper;
-using Castle.Core.Resource;
 using Crud.Application.Services.Customers.GetCustomer;
 using Crud.Application.Services.Customers.GetCustomer.Models;
 using Crud.Data.Repositories.Core.UnitOfWorks;
 using Crud.Data.Repositories.Customers;
 using Crud.Domain.Entities;
 using Moq;
+using System.ComponentModel;
 
 namespace Crud.Test.Services.Customers;
 
-using Moq;
-using Xunit;
-
+/// <summary>
+/// Unit tests for the <see cref="GetCustomer"/> service.
+/// </summary>
+[Category("Services")]
 public class GetCustomerTests
 {
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
@@ -25,6 +26,10 @@ public class GetCustomerTests
         _mapperMock = new Mock<IMapper>();
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="GetCustomer.ExecuteAsync"/> method.
+    /// It verifies that the method returns a successful result with the customer data when a valid customer ID is provided.
+    /// </summary>
     [Fact]
     [Trait("Services", "GetCustomer")]
     public async Task ExecuteAsync_ValidCustomerId_ReturnsSuccessfulResultWithCustomerData()
@@ -48,6 +53,10 @@ public class GetCustomerTests
         Assert.Equal(mappedResult, result.Value);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="GetCustomer.ExecuteAsync"/> method.
+    /// It verifies that the method does not throw an exception when a null customer ID is provided.
+    /// </summary>
     [Fact]
     [Trait("Services", "GetCustomer")]
     public async Task ExecuteAsync_NullCustomerId_NotThrowsArgumentNullException()
@@ -78,6 +87,10 @@ public class GetCustomerTests
         Assert.True(true);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="GetCustomer.ExecuteAsync"/> method.
+    /// It verifies that the method returns a failed result with the error message when the customer is not found.
+    /// </summary>
     [Fact]
     [Trait("Services", "GetCustomer")]
     public async Task ExecuteAsync_CustomerNotFound_ReturnsFailedResultWithErrorMessage()
@@ -99,3 +112,4 @@ public class GetCustomerTests
         Assert.Equal("Customer not found.", result.Error);
     }
 }
+

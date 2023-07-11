@@ -5,10 +5,16 @@ using System.ComponentModel;
 
 namespace Crud.Test.Repositories.Products;
 
-[Category("ProductRepository")]
+/// <summary>
+/// Integration tests for the <see cref="ProductRepository"/> class.
+/// </summary>
+[Category("Repositories")]
 public class ProductRepositoryTests
 {
-    //Get Products
+    /// <summary>
+    /// Unit test for the <see cref="ProductRepository.GetProducts"/> method.
+    /// It verifies that all products are returned when products exist in the database.
+    /// </summary>
     [Fact]
     [Trait("ProductRepository", "GetProducts")]
     public async Task GetProducts_ReturnsAllProducts()
@@ -38,6 +44,10 @@ public class ProductRepositoryTests
         Assert.Equal(expectedProducts.Select(product => product.Name), actualProducts.Select(p => p.Name));
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="ProductRepository.GetProducts"/> method.
+    /// It verifies that an empty list is returned when no products exist in the database.
+    /// </summary>
     [Fact]
     [Trait("ProductRepository", "GetProducts")]
     public async Task GetProducts_ReturnsEmptyList_WhenNoProductsExist()
@@ -54,6 +64,10 @@ public class ProductRepositoryTests
         Assert.Empty(actualProducts);
     }
 
+    /// <summary>
+    /// Unit test for the <see cref="ProductRepository.GetProducts"/> method.
+    /// It verifies that the correct products are returned after adding a new product to the database.
+    /// </summary>
     [Fact]
     [Trait("ProductRepository", "GetProducts")]
     public async Task GetProducts_ReturnsCorrectProducts_AfterAddingNewProduct()
