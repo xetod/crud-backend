@@ -1,5 +1,7 @@
 ﻿using Crud.Data.DbContexts;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
+using Crud.Domain.Entities.Products;
+using Crud.Domain.Entities.Sales;
 
 namespace Crud.Api.Core.Seed;
 
