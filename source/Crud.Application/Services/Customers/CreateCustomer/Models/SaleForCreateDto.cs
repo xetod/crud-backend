@@ -24,9 +24,4 @@ public class SaleForCreateDto
     /// Gets or sets the unit price of the product.
     /// </summary>
     public decimal UnitPrice { get; set; }
-
-    /// <summary>
-    /// Gets or sets the date of selected product.
-    /// </summary>
-    // public DateTime Date { get; set; }
 }

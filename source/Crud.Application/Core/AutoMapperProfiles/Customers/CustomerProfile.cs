@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Crud.Application.Services.Customers.GetCustomer.Models;
 using Crud.Application.Services.Customers.GetCustomers.Models;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
 
 namespace Crud.Application.Core.AutoMapperProfiles.Customers
 {
@@ -17,7 +17,6 @@ namespace Crud.Application.Core.AutoMapperProfiles.Customers
         {
             CreateMap<Customer, CustomerForListDto>();
             CreateMap<Customer, CustomerForDetailDto>();
-
         }
     }
 }

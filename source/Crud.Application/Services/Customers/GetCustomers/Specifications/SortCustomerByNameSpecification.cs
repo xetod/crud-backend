@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Crud.Data.Core.Specifications;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
 
 namespace Crud.Application.Services.Customers.GetCustomers.Specifications;
 

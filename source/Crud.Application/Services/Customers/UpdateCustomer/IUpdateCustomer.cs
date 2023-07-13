@@ -9,10 +9,9 @@ namespace Crud.Application.Services.Customers.UpdateCustomer;
 public interface IUpdateCustomer
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="UpdateCustomer"/> class.
+    /// Executes the customer update operation asynchronously.
     /// </summary>
-    /// <param name="unitOfWork">The unit of work.</param>
-    /// <param name="customerFactory">The customer factory.</param>
-    /// <param name="validator">The validator for customer update data transfer object.</param>
+    /// <param name="model">The customer update data transfer object.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the result of the update operation.</returns>
     Task<Result> ExecuteAsync(CustomerForUpdateDto model);
 }

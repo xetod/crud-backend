@@ -1,6 +1,6 @@
 ﻿using Crud.Application.Core.Result;
 using Crud.Data.Repositories.Core.UnitOfWorks;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
 
 namespace Crud.Application.Services.Customers.DeleteCustomer;
 

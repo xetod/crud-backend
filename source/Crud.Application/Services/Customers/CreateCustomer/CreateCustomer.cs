@@ -2,7 +2,7 @@
 using Crud.Application.Services.Customers.CreateCustomer.Factory;
 using Crud.Application.Services.Customers.CreateCustomer.Models;
 using Crud.Data.Repositories.Core.UnitOfWorks;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
 using FluentValidation;
 using System.Text.Json;
 

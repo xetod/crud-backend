@@ -6,7 +6,7 @@ using Crud.Application.Services.Customers.GetCustomers.Specifications;
 using Crud.Data.Core.PagedLists;
 using Crud.Data.Core.Specifications;
 using Crud.Data.Repositories.Core.UnitOfWorks;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
 
 namespace Crud.Application.Services.Customers.GetCustomers;
 

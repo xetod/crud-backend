@@ -1,6 +1,7 @@
 ﻿using Crud.Application.Services.Customers.CreateCustomer.Models;
 using Crud.Application.Services.Customers.UpdateCustomer.Models;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
+using Crud.Domain.Entities.Sales;
 
 namespace Crud.Application.Services.Customers.CreateCustomer.Factory;
 
