@@ -1,4 +1,4 @@
-﻿using Crud.Domain.Entities;
+﻿using Crud.Domain.Entities.Sales;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -3,6 +3,7 @@ using Crud.Data.Core.Specifications;
 using Crud.Data.DbContexts;
 using Crud.Data.Repositories.Core.Repositories;
 using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Crud.Data.Repositories.Customers;

@@ -1,6 +1,6 @@
 ﻿using Crud.Data.DbContexts;
 using Crud.Data.Repositories.Core.Repositories;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Products;
 using Microsoft.EntityFrameworkCore;
 
 namespace Crud.Data.Repositories.Products;

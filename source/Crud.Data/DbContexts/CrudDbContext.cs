@@ -1,5 +1,7 @@
 ﻿using Crud.Data.Configurations;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
+using Crud.Domain.Entities.Products;
+using Crud.Domain.Entities.Sales;
 using Microsoft.EntityFrameworkCore;
 
 namespace Crud.Data.DbContexts;

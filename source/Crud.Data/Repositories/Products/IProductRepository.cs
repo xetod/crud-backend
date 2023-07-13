@@ -1,5 +1,5 @@
 ﻿using Crud.Data.Repositories.Core.Repositories;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Products;
 
 namespace Crud.Data.Repositories.Products;
 

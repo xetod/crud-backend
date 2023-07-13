@@ -1,7 +1,7 @@
 ﻿using Crud.Data.Core.PagedLists;
 using Crud.Data.Core.Specifications;
 using Crud.Data.Repositories.Core.Repositories;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
 
 namespace Crud.Data.Repositories.Customers;
 
