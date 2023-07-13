@@ -25,7 +25,7 @@ public class DeleteCustomer : IDeleteCustomer
     /// If the operation is successful, the result will be a success result with a null value.
     /// If the customer ID is invalid or the customer is not found, the result will be a failure result with an appropriate error message.
     /// </returns>
-    public async Task<Result<Customer>> ExecuteAsync(int customerId)
+    public async Task<Result> ExecuteAsync(int customerId)
     {
         // Check if the customer ID is valid
         if (customerId == default)
@@ -46,7 +46,7 @@ public class DeleteCustomer : IDeleteCustomer
 
         // Return a success result with a null value to indicate successful deletion if the result is greater than 0
         return result > 0
-            ? Result.Ok<Customer>(null)
+            ? Result.Ok()
             : Result.Fail<Customer>("Deletion failed.");
 
     }

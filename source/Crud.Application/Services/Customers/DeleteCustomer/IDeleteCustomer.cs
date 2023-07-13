@@ -5,5 +5,5 @@ namespace Crud.Application.Services.Customers.DeleteCustomer;
 
 public interface IDeleteCustomer
 {
-    Task<Result<Customer>> ExecuteAsync(int customerId);
+    Task<Result> ExecuteAsync(int customerId);
 }
