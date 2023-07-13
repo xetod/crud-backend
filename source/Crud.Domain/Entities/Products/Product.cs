@@ -1,6 +1,6 @@
-﻿namespace Crud.Domain.Entities;
+﻿using Crud.Domain.Entities.Sales;
 
-using System.Collections.Generic;
+namespace Crud.Domain.Entities.Products;
 
 /// <summary>
 /// Represents a product entity.

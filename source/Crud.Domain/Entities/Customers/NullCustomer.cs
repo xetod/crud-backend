@@ -1,4 +1,6 @@
-﻿namespace Crud.Domain.Entities;
+﻿using Crud.Domain.Entities.Sales;
+
+namespace Crud.Domain.Entities.Customers;
 
 /// <summary>
 /// Represents a null customer entity.
@@ -8,7 +10,7 @@ public class NullCustomer : Customer
     public NullCustomer()
     {
         // Set default values or behaviors for the properties and methods
-        CustomerId = -1; 
+        CustomerId = -1;
         FirstName = string.Empty;
         LastName = string.Empty;
         Email = string.Empty;

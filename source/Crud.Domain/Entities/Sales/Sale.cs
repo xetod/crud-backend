@@ -1,4 +1,7 @@
-﻿namespace Crud.Domain.Entities;
+﻿using Crud.Domain.Entities.Customers;
+using Crud.Domain.Entities.Products;
+
+namespace Crud.Domain.Entities.Sales;
 
 /// <summary>
 /// Represents a sale entity.

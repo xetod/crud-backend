@@ -1,4 +1,6 @@
-﻿namespace Crud.Domain.Entities;
+﻿using Crud.Domain.Entities.Sales;
+
+namespace Crud.Domain.Entities.Customers;
 
 /// <summary>
 /// Represents a customer entity.
