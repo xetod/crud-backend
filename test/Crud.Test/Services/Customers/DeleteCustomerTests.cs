@@ -1,6 +1,6 @@
 ﻿using Crud.Application.Services.Customers.DeleteCustomer;
 using Crud.Data.Repositories.Core.UnitOfWorks;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
 using Crud.Test.Helpers;
 using Moq;
 using System.ComponentModel;

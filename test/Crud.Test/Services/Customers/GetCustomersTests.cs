@@ -5,7 +5,9 @@ using Crud.Application.Services.Customers.GetCustomers;
 using Crud.Data.Core.PagedLists;
 using Crud.Data.Core.Specifications;
 using Crud.Data.Repositories.Core.UnitOfWorks;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
+using Crud.Domain.Entities.Products;
+using Crud.Domain.Entities.Sales;
 using Moq;
 using System.ComponentModel;
 

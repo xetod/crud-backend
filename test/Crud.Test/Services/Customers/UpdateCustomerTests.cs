@@ -4,7 +4,7 @@ using Crud.Application.Services.Customers.UpdateCustomer.Models;
 using Crud.Application.Services.Customers.UpdateCustomer.Validation;
 using Crud.Data.Repositories.Core.UnitOfWorks;
 using Crud.Data.Repositories.Customers;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
 using FluentValidation;
 using FluentValidation.TestHelper;
 using Moq;

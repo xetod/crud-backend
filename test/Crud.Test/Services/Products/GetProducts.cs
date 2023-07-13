@@ -2,7 +2,7 @@
 using Crud.Application.Services.Products.GetProducts;
 using Crud.Application.Services.Products.GetProducts.Models;
 using Crud.Data.Repositories.Core.UnitOfWorks;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Products;
 using Moq;
 using System.ComponentModel;
 

@@ -1,5 +1,5 @@
 ﻿using Crud.Data.Repositories.Products;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Products;
 using Crud.Test.Helpers;
 using System.ComponentModel;
 

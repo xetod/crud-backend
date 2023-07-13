@@ -1,4 +1,4 @@
-﻿using Crud.Domain.Entities;
+﻿using Crud.Domain.Entities.Sales;
 
 namespace Crud.Test.Entities;
 

@@ -3,7 +3,7 @@ using Crud.Application.Services.Customers.GetCustomer;
 using Crud.Application.Services.Customers.GetCustomer.Models;
 using Crud.Data.Repositories.Core.UnitOfWorks;
 using Crud.Data.Repositories.Customers;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
 using Moq;
 using System.ComponentModel;
 

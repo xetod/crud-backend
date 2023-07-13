@@ -15,12 +15,17 @@ using Crud.Application.Services.Customers.GetCustomers;
 using Crud.Application.Services.Customers.GetCustomers.Models;
 using Crud.Application.Services.Customers.UpdateCustomer;
 using Crud.Application.Services.Customers.UpdateCustomer.Models;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
+using Crud.Domain.Entities.Products;
+using Crud.Domain.Entities.Sales;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
 namespace Crud.Test.Controllers.Customers;
 
+/// <summary>
+/// Unit tests for the <see cref="CustomerController"/> class.
+/// </summary>
 [Category("Controllers")]
 public class CustomerControllerTests
 {

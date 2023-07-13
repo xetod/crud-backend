@@ -1,11 +1,12 @@
-﻿using System.ComponentModel;
-using Crud.Application.Services.Customers.GetCustomers;
+﻿using Crud.Application.Services.Customers.GetCustomers;
 using Crud.Application.Services.Customers.GetCustomers.Specifications;
 using Crud.Data.Core.Specifications;
 using Crud.Data.Repositories.Customers;
-using Crud.Domain.Entities;
+using Crud.Domain.Entities.Customers;
+using Crud.Domain.Entities.Products;
+using Crud.Domain.Entities.Sales;
 using Crud.Test.Helpers;
-using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 
 namespace Crud.Test.Repositories.Customers;
 
