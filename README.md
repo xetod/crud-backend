@@ -38,7 +38,7 @@ If you want to view the endpoints, simply visit the following address:
 ```sh
 http://localhost:6060/swagger/index.html
 ```
-##Dependencies
+## Dependencies
 The backend of CRUDIO relies on the following dependencies:
 
 - .NET Core 6
