@@ -16,7 +16,8 @@ public static class ConfigureDbContext
     /// <returns>The modified <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection ConfigureCrudDbContext(this IServiceCollection services, string connectionString)
     {
-        services.AddDbContext<CrudDbContext>(options => options.UseSqlServer(connectionString));
+        //services.AddDbContext<CrudDbContext>(options => options.UseSqlServer(connectionString));
+        services.AddDbContext<CrudDbContext>(options => options.UseInMemoryDatabase("InMemoryDb"));
 
         return services;
     }
