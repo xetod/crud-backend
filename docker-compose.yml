@@ -1,0 +1,11 @@
+version: '3'
+services:
+  service1:
+    image: xetod/crudio-backend:latest
+    ports:
+      - 6060:80
+
+  service2:
+    image: xetod/crudio-frontend:latest
+    ports:
+      - 7070:3000

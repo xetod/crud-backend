@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crud.Api", "source\Crud.Api
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crud.Test", "test\Crud.Test\Crud.Test.csproj", "{F7F07F0A-2F5D-4CA3-8164-4B27A4EFE143}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crud.Domain", "source\Crud.Domain\Crud.Domain.csproj", "{C0893D24-55D5-4EF9-A666-B9F24CF30784}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crud.Domain", "source\Crud.Domain\Crud.Domain.csproj", "{C0893D24-55D5-4EF9-A666-B9F24CF30784}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
