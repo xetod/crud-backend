@@ -11,6 +11,7 @@ using FluentValidation;
 using FluentValidation.TestHelper;
 using Moq;
 using System.ComponentModel;
+using Crud.Domain.Entities.Sales;
 
 namespace Crud.Test.Services.Customers;
 

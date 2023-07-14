@@ -70,6 +70,7 @@ public class GetProductsTests
     /// Tests that ExecuteAsync method returns an empty list when no products exist in the database.
     /// </summary>
     [Fact]
+    [Trait("ProductServices", "GetProducts")]
     public async Task ExecuteAsync_ShouldReturnEmptyList_WhenNoProductsExist()
     {
         // Arrange
@@ -88,6 +89,7 @@ public class GetProductsTests
     /// Tests that ExecuteAsync method maps products when products exist in the database.
     /// </summary>
     [Fact]
+    [Trait("ProductServices", "GetProducts")]
     public async Task ExecuteAsync_ShouldMapProducts_WhenProductsExist()
     {
         // Arrange
@@ -110,6 +112,7 @@ public class GetProductsTests
     /// Tests that ExecuteAsync method returns null when the unit of work returns null.
     /// </summary>
     [Fact]
+    [Trait("ProductServices", "GetProducts")]
     public async Task ExecuteAsync_ShouldReturnProducts_WhenUnitOfWorkReturnsNull()
     {
         // Arrange
