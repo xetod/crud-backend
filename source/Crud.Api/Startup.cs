@@ -3,6 +3,7 @@ using Crud.Api.Core.ConfigureDbContexts;
 using Crud.Api.Core.DependencyInjections;
 using Crud.Api.Core.DependencyInjections.Customers;
 using Crud.Api.Core.DependencyInjections.Products;
+using Crud.Api.Core.Middlewares;
 using Crud.Api.Core.Seed;
 using Microsoft.OpenApi.Models;
 
@@ -74,8 +75,14 @@ public class Startup
     /// Configures the HTTP request pipeline.
     /// </summary>
     /// <param name="app">The <see cref="IApplicationBuilder"/> instance.</param>
-    public void Configure(IApplicationBuilder app)
+    /// <param name="env">The <see cref="IWebHostEnvironment"/> instance.</param>
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        if (env.IsDevelopment())
+            app.UseDeveloperExceptionPage();
+        else
+            app.UseMiddleware<ErrorHandlerMiddleware>();
+
         app.UseSwagger();
         app.UseSwaggerUI(options =>
         {

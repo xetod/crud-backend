@@ -52,6 +52,11 @@ public class Result
         return new Result<T>(default, statusCode, false, message);
     }
 
+    public static Result Fail(string message, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
+    {
+        return new Result(false, message, statusCode);
+    }
+
     /// <summary>
     /// Creates a success result.
     /// </summary>
